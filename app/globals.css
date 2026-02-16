@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html,
+body {
+  min-height: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-cloud text-ink antialiased;
+}
+
+.font-heading {
+  font-family: var(--font-heading), "Trebuchet MS", "Avenir Next", sans-serif;
+}
+
+.font-body {
+  font-family: var(--font-body), "Avenir Next", sans-serif;
+}
+
+::selection {
+  background: rgba(255, 133, 102, 0.25);
+}
