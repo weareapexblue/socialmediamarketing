@@ -37,7 +37,7 @@ export async function POST(request: Request) {
 
   const data = parsed.data;
 
-  const lead = insertLead({
+  const lead = await insertLead({
     fullName: data.fullName,
     businessName: data.businessName,
     email: data.email,

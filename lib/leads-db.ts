@@ -1,6 +1,4 @@
-import Database from "better-sqlite3";
-import fs from "node:fs";
-import path from "node:path";
+import { neon, NeonQueryFunction } from "@neondatabase/serverless";
 
 export type LeadInput = {
   fullName: string;
@@ -22,108 +20,99 @@ export type LeadRecord = LeadInput & {
 
 type LeadRow = {
   id: number;
-  created_at: string;
+  created_at: string | Date;
   full_name: string;
   business_name: string;
   email: string;
   phone: string | null;
   preferred_reply: "text" | "email";
   business_type: string;
-  current_platforms: string;
+  current_platforms: unknown;
   primary_goal: string;
   ad_budget: string | null;
   notes: string | null;
 };
 
 declare global {
-  var __smmLeadDb: Database.Database | undefined;
+  var __smmNeonSql: NeonQueryFunction<false, false> | undefined;
+  var __smmLeadTablePromise: Promise<void> | undefined;
 }
 
-function getDatabasePath() {
-  return process.env.LEADS_DB_PATH ?? path.join(process.cwd(), "data", "leads.sqlite");
+function getSql() {
+  const databaseUrl = process.env.DATABASE_URL;
+
+  if (!databaseUrl) {
+    throw new Error("DATABASE_URL is required for Neon lead storage.");
+  }
+
+  if (!global.__smmNeonSql) {
+    global.__smmNeonSql = neon(databaseUrl);
+  }
+
+  return global.__smmNeonSql;
 }
 
-function createDatabase() {
-  const databasePath = getDatabasePath();
-  fs.mkdirSync(path.dirname(databasePath), { recursive: true });
+async function ensureLeadTable() {
+  if (!global.__smmLeadTablePromise) {
+    const sql = getSql();
 
-  const db = new Database(databasePath);
-  db.pragma("journal_mode = WAL");
+    global.__smmLeadTablePromise = (async () => {
+      await sql`
+        CREATE TABLE IF NOT EXISTS socialmediamarketing_leads (
+          id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+          created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+          full_name TEXT NOT NULL,
+          business_name TEXT NOT NULL,
+          email TEXT NOT NULL,
+          phone TEXT,
+          preferred_reply TEXT NOT NULL CHECK (preferred_reply IN ('text', 'email')),
+          business_type TEXT NOT NULL,
+          current_platforms JSONB NOT NULL DEFAULT '[]'::jsonb,
+          primary_goal TEXT NOT NULL,
+          ad_budget TEXT,
+          notes TEXT
+        )
+      `;
 
-  db.prepare(
-    `CREATE TABLE IF NOT EXISTS leads (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      created_at TEXT NOT NULL,
-      full_name TEXT NOT NULL,
-      business_name TEXT NOT NULL,
-      email TEXT NOT NULL,
-      phone TEXT,
-      preferred_reply TEXT NOT NULL,
-      business_type TEXT NOT NULL,
-      current_platforms TEXT NOT NULL,
-      primary_goal TEXT NOT NULL,
-      ad_budget TEXT,
-      notes TEXT
-    )`
-  ).run();
+      await sql`
+        CREATE INDEX IF NOT EXISTS socialmediamarketing_leads_created_at_idx
+        ON socialmediamarketing_leads (created_at DESC)
+      `;
+    })();
+  }
 
-  return db;
+  await global.__smmLeadTablePromise;
 }
 
-const db = global.__smmLeadDb ?? createDatabase();
+export async function insertLead(input: LeadInput): Promise<LeadRecord> {
+  await ensureLeadTable();
+  const sql = getSql();
 
-if (process.env.NODE_ENV !== "production") {
-  global.__smmLeadDb = db;
-}
-
-export function insertLead(input: LeadInput): LeadRecord {
-  const createdAt = new Date().toISOString();
-
-  const insert = db.prepare(
-    `INSERT INTO leads (
-      created_at,
-      full_name,
-      business_name,
-      email,
-      phone,
-      preferred_reply,
-      business_type,
-      current_platforms,
-      primary_goal,
-      ad_budget,
-      notes
-    ) VALUES (
-      @created_at,
-      @full_name,
-      @business_name,
-      @email,
-      @phone,
-      @preferred_reply,
-      @business_type,
-      @current_platforms,
-      @primary_goal,
-      @ad_budget,
-      @notes
-    )`
-  );
-
-  const result = insert.run({
-    created_at: createdAt,
-    full_name: input.fullName,
-    business_name: input.businessName,
-    email: input.email,
-    phone: input.phone,
-    preferred_reply: input.preferredReply,
-    business_type: input.businessType,
-    current_platforms: JSON.stringify(input.currentPlatforms),
-    primary_goal: input.primaryGoal,
-    ad_budget: input.adBudget,
-    notes: input.notes
-  });
-
-  const lead = db
-    .prepare(
-      `SELECT
+  const rows = (await sql`
+      INSERT INTO socialmediamarketing_leads (
+        full_name,
+        business_name,
+        email,
+        phone,
+        preferred_reply,
+        business_type,
+        current_platforms,
+        primary_goal,
+        ad_budget,
+        notes
+      ) VALUES (
+        ${input.fullName},
+        ${input.businessName},
+        ${input.email},
+        ${input.phone},
+        ${input.preferredReply},
+        ${input.businessType},
+        ${JSON.stringify(input.currentPlatforms)}::jsonb,
+        ${input.primaryGoal},
+        ${input.adBudget},
+        ${input.notes}
+      )
+      RETURNING
         id,
         created_at,
         full_name,
@@ -136,23 +125,40 @@ export function insertLead(input: LeadInput): LeadRecord {
         primary_goal,
         ad_budget,
         notes
-      FROM leads
-      WHERE id = ?`
-    )
-    .get(result.lastInsertRowid) as LeadRow;
+    `) as LeadRow[];
+
+  const lead = rows[0];
 
   return {
     id: lead.id,
-    createdAt: lead.created_at,
+    createdAt: toIsoString(lead.created_at),
     fullName: lead.full_name,
     businessName: lead.business_name,
     email: lead.email,
     phone: lead.phone,
     preferredReply: lead.preferred_reply,
     businessType: lead.business_type,
-    currentPlatforms: JSON.parse(lead.current_platforms) as string[],
+    currentPlatforms: normalizePlatforms(lead.current_platforms),
     primaryGoal: lead.primary_goal,
     adBudget: lead.ad_budget,
     notes: lead.notes
   };
+}
+
+function normalizePlatforms(value: unknown): string[] {
+  if (Array.isArray(value)) {
+    return value.map((platform) => String(platform));
+  }
+
+  return [];
+}
+
+function toIsoString(value: string | Date) {
+  if (value instanceof Date) {
+    return value.toISOString();
+  }
+
+  const date = new Date(value);
+
+  return Number.isNaN(date.getTime()) ? new Date().toISOString() : date.toISOString();
 }
