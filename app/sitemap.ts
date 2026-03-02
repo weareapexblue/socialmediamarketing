@@ -11,6 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/pricing",
     "/contact",
     "/how-it-works",
+    "/maryland-social-media-management",
     "/industries-we-serve",
     "/blog"
   ];

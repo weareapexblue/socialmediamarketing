@@ -33,6 +33,11 @@ export function SiteFooter() {
                 </Link>
               </li>
             ))}
+            <li>
+              <Link className="hover:text-ocean" href="/maryland-social-media-management">
+                Maryland Service Page
+              </Link>
+            </li>
           </ul>
         </div>
 

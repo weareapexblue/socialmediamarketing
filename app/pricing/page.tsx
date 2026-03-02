@@ -17,6 +17,11 @@ export const metadata = buildPageMetadata({
 
 const faqItems = [
   {
+    question: "How much does social media management cost in Maryland?",
+    answer:
+      "Our plans are $400, $800, and $1,500 per month, depending on channel coverage, content volume, and engagement depth."
+  },
+  {
     question: "Can I upgrade tiers later?",
     answer:
       "Yes. Many clients start with Tier 1 or Tier 2, then move up as they need wider platform coverage and deeper engagement support."

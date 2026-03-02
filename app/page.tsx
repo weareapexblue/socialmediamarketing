@@ -17,6 +17,8 @@ export const metadata = buildPageMetadata({
   path: "/",
   keywords: [
     "social media management Maryland",
+    "baltimore social media management",
+    "annapolis social media marketing",
     "social media for local business",
     "facebook instagram management",
     "maryland marketing support"
@@ -38,6 +40,11 @@ const homeFaq = [
     question: "Can I start with one platform and grow later?",
     answer:
       "Absolutely. Many businesses start with Meta and expand to TikTok, YouTube, and additional channels as they grow."
+  },
+  {
+    question: "Which Maryland areas do you serve?",
+    answer:
+      "We support local businesses across Maryland, including Baltimore, Annapolis, Columbia, Bethesda, Rockville, Towson, Frederick, and surrounding communities."
   }
 ];
 
@@ -57,6 +64,17 @@ const audiences = [
   "Contractors",
   "Creators",
   "Community businesses"
+];
+
+const marylandMarkets = [
+  "Baltimore",
+  "Annapolis",
+  "Columbia",
+  "Bethesda",
+  "Rockville",
+  "Silver Spring",
+  "Towson",
+  "Frederick"
 ];
 
 const steps = [
@@ -145,6 +163,35 @@ export default function HomePage() {
           <div className="mt-8 rounded-3xl border border-leaf/20 bg-leaf/10 p-6 text-sm leading-relaxed text-ink">
             We are based in Maryland and support businesses throughout the state and beyond. If your business serves a
             local community, we can help your social channels feel consistent, friendly, and trustworthy.
+          </div>
+        </Container>
+      </section>
+
+      <section className="bg-white py-16">
+        <Container>
+          <SectionTitle
+            eyebrow="Maryland Coverage"
+            title="Local strategy for real Maryland markets"
+            description="We shape content around local community behavior, nearby service areas, and practical engagement for Maryland small businesses."
+          />
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {marylandMarkets.map((market, index) => (
+              <MotionReveal
+                key={market}
+                delay={index * 0.04}
+                className="rounded-2xl border border-ocean/10 bg-cloud p-4 text-sm font-semibold text-ink shadow-soft"
+              >
+                {market}, MD
+              </MotionReveal>
+            ))}
+          </div>
+          <div className="mt-7">
+            <Link
+              href="/maryland-social-media-management"
+              className="inline-flex rounded-full bg-ocean px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-ink"
+            >
+              Explore Maryland Service Details
+            </Link>
           </div>
         </Container>
       </section>

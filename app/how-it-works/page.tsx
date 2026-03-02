@@ -22,6 +22,11 @@ const faqItems = [
       "We review and refresh your content plan monthly, with weekly posting and engagement execution throughout the month."
   },
   {
+    question: "Do you support location-based strategy in Maryland?",
+    answer:
+      "Yes. We include local hashtag research, geo-tag planning, and market-specific content angles for Maryland service areas."
+  },
+  {
     question: "Can I approve content before it goes live?",
     answer:
       "Yes. You can review and approve planned content before scheduling to keep voice and priorities aligned."
@@ -48,7 +53,7 @@ const workflow = [
   },
   {
     title: "Monthly strategy setup",
-    body: "We map post topics, video ideas, engagement focus areas, and campaign priorities so execution is structured and clear."
+    body: "We map post topics, video ideas, local hashtag and geo-tag opportunities, engagement focus areas, and campaign priorities so execution is structured and clear."
   },
   {
     title: "Content creation and scheduling",
