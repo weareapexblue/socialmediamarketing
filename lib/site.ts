@@ -8,19 +8,19 @@ export const siteConfig = {
   textHref: "sms:+14435957739",
   email: "team@socialmediamarketing.vip",
   emailHref: "mailto:team@socialmediamarketing.vip",
-  url: "https://socialmediamarketing.vip",
+  url: "https://www.socialmediamarketing.vip",
   description:
     "Friendly social media management for Maryland small businesses, led by real people who post, engage, and build your community with care."
 } as const;
 
 export const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
+  { href: "/services", label: "Services" },
   { href: "/pricing", label: "Pricing" },
-  { href: "/how-it-works", label: "How It Works" },
   { href: "/industries-we-serve", label: "Industries" },
+  { href: "/locations", label: "Maryland Areas" },
+  { href: "/how-it-works", label: "How It Works" },
+  { href: "/about", label: "About" },
   { href: "/blog", label: "Blog" },
-  { href: "/contact", label: "Contact" }
 ] as const;
 
 export type Tier = {

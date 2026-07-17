@@ -3,12 +3,12 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { FaqList } from "@/components/faq-list";
+import { LeadCta } from "@/components/lead-cta";
 import { MotionReveal } from "@/components/motion-reveal";
 import { PageShell } from "@/components/page-shell";
 import { SchemaJsonLd } from "@/components/schema-json-ld";
 import {
   buildIndustrySections,
-  estimateWordCount,
   getIndustryGuide,
   getRelatedIndustryGuides,
   industryGuides
@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: IndustryPageProps): Promise<M
 
   return buildPageMetadata({
     title: `${guide.title} | SocialMediaMarketing.VIP`,
-    description: `Long-form guide for ${guide.niche}: common struggles, practical social strategy, tier recommendations, and FAQs for local businesses.`,
+    description: `Practical social media management for ${guide.niche}, including content planning, human engagement, short-form video, plan recommendations, and FAQs.`,
     path: `/industries/${guide.slug}`,
     keywords: [
       `${guide.niche} social media management`,
@@ -58,27 +58,30 @@ export default async function IndustryGuidePage({ params }: IndustryPageProps) {
 
   const sections = buildIndustrySections(guide);
   const related = getRelatedIndustryGuides(guide.slug, 4);
-  const estimatedWords = estimateWordCount(sections, guide.faq);
+  const breadcrumbs = [
+    { name: "Home", path: "/" },
+    { name: "Industries", path: "/industries-we-serve" },
+    { name: guide.title, path: `/industries/${guide.slug}` }
+  ];
 
   const schemaData = buildSchemaData({
     path: `/industries/${guide.slug}`,
-    serviceName: `${guide.title} Social Media Management Guide`,
-    serviceDescription: `Detailed social media strategy for ${guide.niche} with practical human-first engagement recommendations.`,
-    faqItems: guide.faq
+    serviceName: guide.title,
+    serviceDescription: `Social media planning, publishing, short-form video, and human engagement support for ${guide.niche}.`,
+    faqItems: guide.faq,
+    breadcrumbs,
+    serviceType: `Social media management for ${guide.niche}`
   });
 
   return (
     <>
       <SchemaJsonLd data={schemaData} />
       <PageShell
-        badge="Industry Guide"
+        badge={`${guide.niche} Social Media`}
         title={guide.title}
-        intro={`${guide.ctaBody} This guide is written for real teams that want practical social media strategy with consistent human interaction.`}
+        intro={`${guide.ctaBody} ${guide.localAngle}`}
+        breadcrumbs={breadcrumbs}
       >
-        <div className="mb-8 rounded-2xl border border-ocean/10 bg-skyMint/60 p-4 text-xs font-semibold uppercase tracking-[0.14em] text-ocean">
-          Long-form guide length: approximately {estimatedWords} words
-        </div>
-
         <div className="space-y-8">
           {sections.map((section, index) => (
             <MotionReveal key={section.heading} delay={index * 0.02}>
@@ -114,10 +117,31 @@ export default async function IndustryGuidePage({ params }: IndustryPageProps) {
           </div>
         </section>
 
-        <section className="mt-10 rounded-3xl border border-ocean/10 bg-white p-7 shadow-soft">
-          <h2 className="font-heading text-3xl text-ink">Explore more industry guides</h2>
+        <section className="mt-10 rounded-3xl border border-ocean/10 bg-skyMint/55 p-7">
+          <h2 className="font-heading text-3xl text-ink">Services that support this plan</h2>
           <p className="mt-3 text-sm leading-relaxed text-ink/75">
-            These related pages help you compare strategy approaches across different local business niches.
+            See exactly how our team handles publishing, engagement, short-form video, and paid social options.
+          </p>
+          <div className="mt-6 grid gap-3 sm:grid-cols-2">
+            <Link href="/services/social-media-management" className="rounded-2xl border border-ocean/10 bg-white px-4 py-3 text-sm font-semibold text-ink transition hover:border-ocean">
+              Social Media Management
+            </Link>
+            <Link href="/services/social-media-engagement" className="rounded-2xl border border-ocean/10 bg-white px-4 py-3 text-sm font-semibold text-ink transition hover:border-ocean">
+              Engagement and Community Management
+            </Link>
+            <Link href="/services/short-form-video" className="rounded-2xl border border-ocean/10 bg-white px-4 py-3 text-sm font-semibold text-ink transition hover:border-ocean">
+              Short-Form Video
+            </Link>
+            <Link href="/services/social-media-advertising" className="rounded-2xl border border-ocean/10 bg-white px-4 py-3 text-sm font-semibold text-ink transition hover:border-ocean">
+              Paid Social Advertising
+            </Link>
+          </div>
+        </section>
+
+        <section className="mt-10 rounded-3xl border border-ocean/10 bg-white p-7 shadow-soft">
+          <h2 className="font-heading text-3xl text-ink">Explore related business needs</h2>
+          <p className="mt-3 text-sm leading-relaxed text-ink/75">
+            These related pages show how content and engagement priorities change for other customer journeys.
           </p>
           <div className="mt-6 grid gap-3 sm:grid-cols-2">
             {related.map((item) => (
@@ -141,10 +165,15 @@ export default async function IndustryGuidePage({ params }: IndustryPageProps) {
               href="/contact"
               className="rounded-full bg-coral px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-coral/90"
             >
-              Talk with our team
+              Get My Social Plan
             </Link>
           </div>
         </section>
+
+        <LeadCta
+          title={`Want a practical social media plan for your ${guide.niche}?`}
+          body="Share your current platforms, main goal, and biggest challenge. We will review the fit and recommend a sensible starting tier."
+        />
       </PageShell>
     </>
   );

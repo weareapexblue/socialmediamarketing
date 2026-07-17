@@ -17,7 +17,8 @@ const leadSchema = z.object({
   currentPlatforms: z.array(z.string().trim().min(1).max(80)).max(10).default([]),
   primaryGoal: z.string().trim().min(2).max(200),
   adBudget: z.string().trim().max(120).optional().or(z.literal("")),
-  notes: z.string().trim().max(2000).optional().or(z.literal(""))
+  notes: z.string().trim().max(2000).optional().or(z.literal("")),
+  website: z.string().trim().max(240).optional().or(z.literal(""))
 });
 
 export async function POST(request: Request) {
@@ -36,6 +37,10 @@ export async function POST(request: Request) {
   }
 
   const data = parsed.data;
+
+  if (data.website) {
+    return NextResponse.json({ ok: true });
+  }
 
   const lead = await insertLead({
     fullName: data.fullName,

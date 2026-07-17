@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { FaqList } from "@/components/faq-list";
+import { LeadCta } from "@/components/lead-cta";
 import { MotionReveal } from "@/components/motion-reveal";
 import { PageShell } from "@/components/page-shell";
 import { SchemaJsonLd } from "@/components/schema-json-ld";
@@ -34,7 +35,7 @@ const faqItems = [
   {
     question: "Do you provide reporting?",
     answer:
-      "Yes. We provide practical reports focused on consistency, engagement quality, and growth signals that matter for small businesses."
+      "Tier 3 includes growth reporting. Across every plan, we still use customer questions and useful engagement signals to improve upcoming content."
   }
 ];
 
@@ -42,8 +43,12 @@ const schemaData = buildSchemaData({
   path: "/how-it-works",
   serviceName: "How SocialMediaMarketing.VIP Works",
   serviceDescription:
-    "A simple Maryland social media management workflow that covers strategy, posting, engagement, and reporting.",
-  faqItems
+    "A simple Maryland social media management workflow that covers strategy, posting, engagement, and ongoing content refinement.",
+  faqItems,
+  breadcrumbs: [
+    { name: "Home", path: "/" },
+    { name: "How It Works", path: "/how-it-works" }
+  ]
 });
 
 const workflow = [
@@ -77,6 +82,10 @@ export default function HowItWorksPage() {
         badge="How It Works"
         title="A simple process built for busy business owners"
         intro="Our workflow keeps social media practical: clear planning, reliable publishing, and warm human engagement that supports your local reputation."
+        breadcrumbs={[
+          { name: "Home", path: "/" },
+          { name: "How It Works", path: "/how-it-works" }
+        ]}
       >
         <div className="space-y-5">
           {workflow.map((step, index) => (
@@ -104,12 +113,32 @@ export default function HowItWorksPage() {
           </Link>
         </div>
 
+        <section className="mt-10 rounded-3xl border border-ocean/10 bg-white p-7 shadow-soft">
+          <h2 className="font-heading text-3xl text-ink">What we need from your team</h2>
+          <p className="mt-3 text-sm leading-relaxed text-ink/75">
+            The process stays light, but accurate and specific social media still needs a reliable source inside the business.
+          </p>
+          <ul className="mt-5 grid gap-3 text-sm leading-relaxed text-ink/80 md:grid-cols-2">
+            <li className="rounded-2xl bg-cloud p-4">Timely access to the social accounts included in your plan</li>
+            <li className="rounded-2xl bg-cloud p-4">Current offers, hours, service details, and important dates</li>
+            <li className="rounded-2xl bg-cloud p-4">A simple stream of approved photos, clips, or business updates</li>
+            <li className="rounded-2xl bg-cloud p-4">Fast fact-checking and approvals from one clear contact</li>
+            <li className="rounded-2xl bg-cloud p-4">Rules for private, sensitive, urgent, or unusual customer questions</li>
+            <li className="rounded-2xl bg-cloud p-4">Honest feedback when a caption or idea does not sound like your business</li>
+          </ul>
+        </section>
+
         <div className="mt-12">
           <h2 className="font-heading text-3xl text-ink">Frequently asked questions</h2>
           <div className="mt-5">
             <FaqList items={faqItems} />
           </div>
         </div>
+
+        <LeadCta
+          title="Ready for a calmer social media workflow?"
+          body="The short form helps us understand your current platforms, primary goal, and the part of the process that needs an owner."
+        />
       </PageShell>
     </>
   );

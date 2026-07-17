@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Baloo_2, Nunito } from "next/font/google";
 
 import "@/app/globals.css";
@@ -17,7 +17,7 @@ const body = Nunito({
 });
 
 export const metadata: Metadata = buildPageMetadata({
-  title: "SocialMediaMarketing.VIP | Friendly Social Media Management in Maryland",
+  title: "Maryland Social Media Management | SocialMediaMarketing.VIP",
   description:
     "Warm, practical social media management for Maryland local businesses. Real people manage your posts, comments, and DMs with support from smart tools.",
   path: "/",
@@ -28,6 +28,11 @@ export const metadata: Metadata = buildPageMetadata({
     "small business social media support"
   ]
 });
+
+export const viewport: Viewport = {
+  colorScheme: "light",
+  themeColor: "#1d73c8"
+};
 
 export default function RootLayout({
   children

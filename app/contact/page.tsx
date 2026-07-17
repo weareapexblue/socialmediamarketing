@@ -8,23 +8,23 @@ import { buildSchemaData } from "@/lib/schema";
 import { siteConfig } from "@/lib/site";
 
 export const metadata = buildPageMetadata({
-  title: "Contact SocialMediaMarketing.VIP | Text or Form",
+  title: "Get a Social Media Plan | Contact SocialMediaMarketing.VIP",
   description:
-    "Send your details through our contact form or text our Maryland team to get a practical social media plan for your business.",
+    "Send the short contact form to get a practical social media plan for your Maryland business. Share your goal, active platforms, and optional ad budget.",
   path: "/contact",
-  keywords: ["social media contact form", "maryland social media help", "text social media team"]
+  keywords: ["social media contact form", "maryland social media help", "social media plan"]
 });
 
 const faqItems = [
   {
     question: "What happens after I submit the form?",
     answer:
-      "Your details are saved to our lead database and an email notification is sent to our team so we can follow up quickly."
+      "Your request reaches our team for review. We use the details to understand your current channels, primary goal, and likely plan fit before following up."
   },
   {
-    question: "Can I text instead of filling out the full form?",
+    question: "How long does the form take?",
     answer:
-      "Yes. You can text us directly if you prefer. The form is recommended because it helps us prepare a better first plan."
+      "Most businesses can complete it in about two minutes. The current ad budget and notes fields are optional."
   },
   {
     question: "Is the ad budget question required?",
@@ -37,8 +37,13 @@ const schemaData = buildSchemaData({
   path: "/contact",
   serviceName: "Contact SocialMediaMarketing.VIP",
   serviceDescription:
-    "Text or submit the contact form to connect with Maryland-based SocialMediaMarketing.VIP for practical social media support.",
-  faqItems
+    "Submit a short contact form to connect with Maryland-based SocialMediaMarketing.VIP for practical social media support.",
+  faqItems,
+  breadcrumbs: [
+    { name: "Home", path: "/" },
+    { name: "Contact", path: "/contact" }
+  ],
+  includeOffers: false
 });
 
 export default function ContactPage() {
@@ -46,9 +51,13 @@ export default function ContactPage() {
     <>
       <SchemaJsonLd data={schemaData} />
       <PageShell
-        badge="Contact"
-        title="Text us or send your quick lead form"
-        intro="The fastest way to get started is our contact form. It asks a few targeted social media questions, saves your lead in our system, and notifies our team right away."
+        badge="Start Here"
+        title="Tell us what you want social media to do for your business"
+        intro="The short form gives us enough context to recommend a useful starting plan without turning your first conversation into homework."
+        breadcrumbs={[
+          { name: "Home", path: "/" },
+          { name: "Contact", path: "/contact" }
+        ]}
       >
         <div className="grid gap-6 xl:grid-cols-[1.25fr_0.75fr]">
           <MotionReveal>
@@ -57,31 +66,28 @@ export default function ContactPage() {
 
           <MotionReveal delay={0.08}>
             <article className="space-y-5 rounded-[2rem] border border-ocean/10 bg-white p-7 shadow-soft">
-              <h2 className="font-heading text-2xl text-ink">Prefer to text first?</h2>
+              <h2 className="font-heading text-2xl text-ink">What happens next</h2>
               <p className="text-sm leading-relaxed text-ink/75">
-                No problem. Send a quick text and we can point you to the right plan. If you have 2 minutes, the contact
-                form helps us give you a more useful recommendation faster.
+                A real person reviews the details, checks the likely platform and content fit, and follows up using the reply method you selected.
               </p>
 
-              <div className="space-y-3 text-sm font-semibold text-ink">
-                <a href={siteConfig.textHref} className="block rounded-2xl bg-skyMint px-4 py-3 hover:bg-skyMint/70">
-                  Text: {siteConfig.phone}
-                </a>
-                <a href={siteConfig.emailHref} className="block rounded-2xl bg-skyMint px-4 py-3 hover:bg-skyMint/70">
-                  Email: {siteConfig.email}
-                </a>
-              </div>
+              <ol className="space-y-3 text-sm leading-relaxed text-ink/80">
+                <li className="rounded-2xl bg-cloud p-4"><strong>1. We review the fit.</strong> Your business type, current channels, and main goal help us avoid a generic recommendation.</li>
+                <li className="rounded-2xl bg-cloud p-4"><strong>2. We recommend a starting point.</strong> We explain which tier or separate ad conversation makes sense and why.</li>
+                <li className="rounded-2xl bg-cloud p-4"><strong>3. We answer questions.</strong> You can review the scope, process, and what we would need from your team before making a decision.</li>
+              </ol>
 
               <div className="rounded-2xl border border-leaf/20 bg-leaf/10 p-4 text-sm leading-relaxed text-ink/80">
                 We are based in Maryland and built for local businesses that want consistent, human-first social media
                 support without enterprise complexity.
               </div>
 
-              <ul className="space-y-2 text-sm leading-relaxed text-ink/75">
-                <li>- Friendly support from a real team</li>
-                <li>- Practical tier recommendation</li>
-                <li>- No fake case studies or inflated claims</li>
-              </ul>
+              <div className="border-t border-ocean/10 pt-5">
+                <p className="text-sm font-semibold text-ink">Prefer a quick message?</p>
+                <p className="mt-2 text-sm text-ink/70">
+                  Text <a href={siteConfig.textHref} className="font-semibold text-ocean hover:underline">{siteConfig.phone}</a> or email <a href={siteConfig.emailHref} className="font-semibold text-ocean hover:underline">{siteConfig.email}</a>.
+                </p>
+              </div>
             </article>
           </MotionReveal>
         </div>

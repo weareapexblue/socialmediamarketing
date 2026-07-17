@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { LeadCta } from "@/components/lead-cta";
 import { MotionReveal } from "@/components/motion-reveal";
 import { PageShell } from "@/components/page-shell";
 import { SchemaJsonLd } from "@/components/schema-json-ld";
@@ -10,27 +11,32 @@ import { blogPosts } from "@/lib/blog";
 export const metadata = buildPageMetadata({
   title: "Social Media Blog | SocialMediaMarketing.VIP",
   description:
-    "Read practical social media guides for local businesses: posting frequency, engagement strategy, DM response, and growth basics.",
+    "Read practical social media guides for local businesses: posting frequency, human engagement, DM response, paid ads, and content planning.",
   path: "/blog",
   keywords: ["social media blog small business", "engagement strategy", "organic social tips"]
 });
 
 const faqItems = [
   {
-    question: "Are these blog posts written for small businesses?",
+    question: "Where should a small business start with social media?",
     answer:
-      "Yes. Every article is written in plain language for local teams, service providers, and owner-led brands."
+      "Start with the platforms your customers already use, a posting rhythm your team can sustain, and a clear process for responding to comments and DMs."
   },
   {
-    question: "Do blog posts include links to service pages?",
+    question: "Is posting more often always better?",
     answer:
-      "Yes. Each post links to related industry guides and pricing so readers can take practical next steps."
+      "No. Useful, accurate content and dependable replies matter more than forcing a high volume your team cannot maintain."
   },
   {
-    question: "How often is the blog updated?",
+    question: "Can AI handle social media for a local business?",
     answer:
-      "We update with evergreen education and strategy insights designed to stay useful for local business teams."
+      "AI can support research, organization, drafts, and scheduling, but real people should verify facts, protect tone, and handle customer conversations."
   }
+];
+
+const breadcrumbs = [
+  { name: "Home", path: "/" },
+  { name: "Blog", path: "/blog" }
 ];
 
 const schemaData = buildSchemaData({
@@ -38,7 +44,9 @@ const schemaData = buildSchemaData({
   serviceName: "Social Media Education Blog",
   serviceDescription:
     "Educational social media articles focused on practical strategy for local and small businesses.",
-  faqItems
+  faqItems,
+  breadcrumbs,
+  includeOffers: false
 });
 
 export default function BlogPage() {
@@ -48,13 +56,17 @@ export default function BlogPage() {
       <PageShell
         badge="Blog"
         title="Friendly social media education for local businesses"
-        intro="These long-form articles break down practical strategy in plain language so business owners can make confident marketing decisions."
+        intro="Clear answers about posting, engagement, direct messages, paid ads, automation, and the social media decisions small businesses make every month."
+        breadcrumbs={breadcrumbs}
       >
         <div className="grid gap-5 md:grid-cols-2">
           {blogPosts.map((post, index) => (
             <MotionReveal key={post.slug} delay={index * 0.03}>
               <article className="group rounded-3xl border border-ocean/10 bg-white p-6 shadow-soft">
                 <h2 className="font-heading text-2xl text-ink">{post.title}</h2>
+                <p className="mt-2 text-xs font-semibold uppercase tracking-[0.14em] text-ocean">
+                  Updated {formatDate(post.updatedAt)}
+                </p>
                 <p className="mt-3 text-sm leading-relaxed text-ink/75">{post.description}</p>
                 <Link
                   href={`/blog/${post.slug}`}
@@ -66,7 +78,21 @@ export default function BlogPage() {
             </MotionReveal>
           ))}
         </div>
+
+        <LeadCta
+          title="Ready to turn the advice into a dependable monthly routine?"
+          body="Share your current platforms and primary goal. Our short form helps us recommend the right level of content and human engagement support."
+        />
       </PageShell>
     </>
   );
+}
+
+function formatDate(value: string) {
+  return new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC"
+  }).format(new Date(`${value}T00:00:00Z`));
 }

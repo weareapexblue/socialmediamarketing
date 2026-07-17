@@ -57,12 +57,13 @@ export function ContactForm() {
       businessName: String(formData.get("businessName") ?? "").trim(),
       email: String(formData.get("email") ?? "").trim(),
       phone: String(formData.get("phone") ?? "").trim(),
-      preferredReply: String(formData.get("preferredReply") ?? "text"),
+      preferredReply: String(formData.get("preferredReply") ?? "email"),
       businessType: String(formData.get("businessType") ?? "").trim(),
       currentPlatforms: formData.getAll("currentPlatforms").map((value) => String(value)),
       primaryGoal: String(formData.get("primaryGoal") ?? "").trim(),
       adBudget: String(formData.get("adBudget") ?? "").trim(),
-      notes: String(formData.get("notes") ?? "").trim()
+      notes: String(formData.get("notes") ?? "").trim(),
+      website: String(formData.get("website") ?? "").trim()
     };
 
     setSubmission({
@@ -109,6 +110,13 @@ export function ContactForm() {
         This takes about 1-2 minutes. We keep it simple and only ask for details that help us recommend the right social
         media plan.
       </p>
+
+      <div className="hidden" aria-hidden="true">
+        <label>
+          Website
+          <input name="website" tabIndex={-1} autoComplete="off" />
+        </label>
+      </div>
 
       <div className="mt-6 grid gap-4 sm:grid-cols-2">
         <label className="text-sm font-semibold text-ink">
@@ -157,11 +165,11 @@ export function ContactForm() {
         <p className="text-sm font-semibold text-ink">Preferred reply method *</p>
         <div className="mt-2 flex flex-wrap gap-3 text-sm text-ink/90">
           <label className="inline-flex items-center gap-2 rounded-full border border-ocean/20 bg-cloud px-4 py-2">
-            <input type="radio" name="preferredReply" value="text" defaultChecked />
+            <input type="radio" name="preferredReply" value="text" />
             Text message
           </label>
           <label className="inline-flex items-center gap-2 rounded-full border border-ocean/20 bg-cloud px-4 py-2">
-            <input type="radio" name="preferredReply" value="email" />
+            <input type="radio" name="preferredReply" value="email" defaultChecked />
             Email
           </label>
         </div>
@@ -257,11 +265,15 @@ export function ContactForm() {
         >
           {submission.status === "submitting" ? "Sending..." : "Send My Request"}
         </button>
-        <p className="text-xs text-ink/65">By submitting, your details are saved securely in our lead system.</p>
+        <p className="text-xs text-ink/65">
+          By submitting, you agree to our <a href="/privacy" className="font-semibold text-ocean hover:underline">privacy policy</a>.
+        </p>
       </div>
 
       {submission.status !== "idle" ? (
         <p
+          role="status"
+          aria-live="polite"
           className={
             submission.status === "success"
               ? "mt-4 rounded-xl bg-leaf/15 px-4 py-3 text-sm font-semibold text-leaf"

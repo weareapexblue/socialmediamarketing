@@ -23,7 +23,7 @@ export function HomeHero() {
             transition={{ duration: 0.45 }}
             className="inline-flex rounded-full bg-white px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-ocean"
           >
-            Maryland Social Media Team
+            Social Media Management in Maryland
           </motion.span>
           <motion.h1
             initial={{ opacity: 0, y: 14 }}
@@ -31,7 +31,7 @@ export function HomeHero() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="mt-5 max-w-2xl font-heading text-4xl leading-tight text-ink sm:text-6xl"
           >
-            Real people behind your brand. Every week.
+            Social media management for local businesses, handled by real people.
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 14 }}
@@ -39,8 +39,7 @@ export function HomeHero() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="mt-6 max-w-xl text-lg leading-relaxed text-ink/75"
           >
-            SocialMediaMarketing.VIP helps local businesses, service brands, and community teams stay visible with warm,
-            practical social media management powered by real humans and smart tools.
+            We plan, post, create short-form video, follow potential customers, comment on targeted posts, and respond to DMs and comments with a friendly human voice.
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 14 }}
@@ -49,16 +48,16 @@ export function HomeHero() {
             className="mt-8 flex flex-wrap gap-3"
           >
             <Link
-              href="/pricing"
+              href="/contact"
               className="rounded-full bg-ocean px-6 py-3 text-sm font-bold text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-ink"
             >
-              See Pricing
+              Get My Social Plan
             </Link>
             <Link
-              href="/contact"
+              href="/pricing"
               className="rounded-full bg-white px-6 py-3 text-sm font-bold text-ink shadow-soft transition hover:-translate-y-0.5 hover:bg-skyMint"
             >
-              Start Contact Form
+              Compare Pricing
             </Link>
           </motion.div>
         </div>

@@ -9,11 +9,13 @@ import { SectionTitle } from "@/components/section-title";
 import { Container } from "@/components/container";
 import { buildPageMetadata } from "@/lib/metadata";
 import { buildSchemaData } from "@/lib/schema";
+import { locationPages } from "@/lib/locations";
+import { servicePages } from "@/lib/services";
 
 export const metadata = buildPageMetadata({
-  title: "SocialMediaMarketing.VIP | Social Media Management for Maryland Small Businesses",
+  title: "Maryland Social Media Management | SocialMediaMarketing.VIP",
   description:
-    "Friendly social media management for Maryland businesses. Real humans handle posting, engagement, and DM support with practical monthly plans.",
+    "Social media management for Maryland small businesses. Real people handle content, short-form video, targeted engagement, comments, and DMs from $400/month.",
   path: "/",
   keywords: [
     "social media management Maryland",
@@ -34,7 +36,7 @@ const homeFaq = [
   {
     question: "Do real people manage engagement?",
     answer:
-      "Yes. We use smart tools for support tasks, but real people manage comments, DMs, and community interaction."
+      "Yes. Engagement includes following potential customers, commenting on targeted posts, and responding to eligible DMs and comments. Smart tools support the workflow, but real people handle communication."
   },
   {
     question: "Can I start with one platform and grow later?",
@@ -45,6 +47,16 @@ const homeFaq = [
     question: "Which Maryland areas do you serve?",
     answer:
       "We support local businesses across Maryland, including Baltimore, Annapolis, Columbia, Bethesda, Rockville, Towson, Frederick, and surrounding communities."
+  },
+  {
+    question: "How much does social media management cost?",
+    answer:
+      "Our three organic social media plans are $400, $800, and $1,500 per month. The right fit depends on platforms, posting frequency, video volume, and engagement depth."
+  },
+  {
+    question: "Can you also run paid social media ads?",
+    answer:
+      "Yes. Meta, TikTok, and YouTube advertising can be planned separately from the monthly organic social media tiers."
   }
 ];
 
@@ -66,17 +78,6 @@ const audiences = [
   "Community businesses"
 ];
 
-const marylandMarkets = [
-  "Baltimore",
-  "Annapolis",
-  "Columbia",
-  "Bethesda",
-  "Rockville",
-  "Silver Spring",
-  "Towson",
-  "Frederick"
-];
-
 const steps = [
   {
     title: "Share your goals",
@@ -91,9 +92,36 @@ const steps = [
     body: "Our team publishes content, follows potential customers, comments on targeted posts, and responds to DMs and comments in a friendly brand-safe tone."
   },
   {
-    title: "Review simple progress",
-    body: "You get clear reporting focused on visibility, engagement quality, and real customer conversations."
+    title: "Keep the plan current",
+    body: "We use customer questions and useful response patterns to shape upcoming posts. Tier 3 also includes growth reporting."
   }
+];
+
+const trustPoints = [
+  {
+    title: "30+ years combined experience",
+    body: "Experience across branding, content, digital strategy, and practical execution."
+  },
+  {
+    title: "A company of Apex Blue",
+    body: "Led by the founder of Apex Blue with accountable, direct support."
+  },
+  {
+    title: "No outsourcing farms",
+    body: "Real people learn your voice and handle the communication layer."
+  },
+  {
+    title: "Pricing you can review now",
+    body: "Three clear monthly plans, with paid advertising scoped separately."
+  }
+];
+
+const engagementIncludes = [
+  "Follow potential customers who fit the agreed audience",
+  "Comment thoughtfully on targeted public posts",
+  "Respond to eligible DMs and comments in your brand voice",
+  "Escalate sensitive, private, urgent, or unusual questions",
+  "Use recurring customer questions to improve future content"
 ];
 
 export default function HomePage() {
@@ -126,6 +154,32 @@ export default function HomePage() {
       <section className="bg-white py-16">
         <Container>
           <SectionTitle
+            eyebrow="What We Handle"
+            title="Choose support that matches the way your business works"
+            description="Start with focused Facebook and Instagram management or add wider platforms, video, community engagement, and paid social support."
+          />
+          <div className="grid gap-5 md:grid-cols-2">
+            {servicePages.slice(0, 4).map((service, index) => (
+              <MotionReveal key={service.slug} delay={index * 0.05}>
+                <article className="group flex h-full flex-col rounded-3xl border border-ocean/10 bg-cloud p-6 shadow-soft transition hover:-translate-y-1 hover:shadow-card">
+                  <h2 className="font-heading text-2xl text-ink">{service.name}</h2>
+                  <p className="mt-3 flex-1 text-sm leading-relaxed text-ink/75">{service.description}</p>
+                  <Link href={`/services/${service.slug}`} className="mt-5 text-sm font-bold text-ocean hover:underline">
+                    See What Is Included
+                  </Link>
+                </article>
+              </MotionReveal>
+            ))}
+          </div>
+          <Link href="/services" className="mt-7 inline-flex rounded-full bg-ocean px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-ink">
+            Explore All Services
+          </Link>
+        </Container>
+      </section>
+
+      <section className="py-16">
+        <Container>
+          <SectionTitle
             eyebrow="Pricing"
             title="Simple monthly plans with human support"
             description="No inflated retainers. No fake growth hacks. Just clear packages that fit where your business is today."
@@ -142,7 +196,7 @@ export default function HomePage() {
         </Container>
       </section>
 
-      <section className="py-16">
+      <section className="bg-white py-16">
         <Container>
           <SectionTitle
             eyebrow="How It Works"
@@ -167,30 +221,80 @@ export default function HomePage() {
         </Container>
       </section>
 
+      <section className="py-16">
+        <Container>
+          <div className="grid gap-8 rounded-[2rem] border border-ocean/10 bg-skyMint/55 p-7 shadow-soft lg:grid-cols-[0.85fr_1.15fr] sm:p-9">
+            <div>
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-ocean">Human Engagement</p>
+              <h2 className="mt-3 font-heading text-3xl leading-tight text-ink sm:text-4xl">Posting is only useful if someone handles the conversation.</h2>
+              <p className="mt-4 text-sm leading-relaxed text-ink/75">
+                We create a response guide with your tone, approved answers, privacy boundaries, and escalation contacts. Then real people monitor and participate within that scope.
+              </p>
+              <Link href="/services/social-media-engagement" className="mt-6 inline-flex rounded-full bg-ocean px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-ink">
+                See How Engagement Works
+              </Link>
+            </div>
+            <ul className="grid gap-3 sm:grid-cols-2">
+              {engagementIncludes.map((item) => (
+                <li key={item} className="rounded-2xl border border-ocean/10 bg-white p-4 text-sm leading-relaxed text-ink/80">
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </Container>
+      </section>
+
       <section className="bg-white py-16">
+        <Container>
+          <SectionTitle
+            eyebrow="Why Us"
+            title="A small-business service with an accountable team"
+            description="Straightforward support, clear boundaries, and no need to decode an enterprise agency pitch."
+          />
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            {trustPoints.map((point, index) => (
+              <MotionReveal key={point.title} delay={index * 0.04}>
+                <article className="h-full rounded-3xl border border-ocean/10 bg-cloud p-5 shadow-soft">
+                  <h3 className="font-heading text-xl text-ink">{point.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-ink/70">{point.body}</p>
+                </article>
+              </MotionReveal>
+            ))}
+          </div>
+          <Link href="/about" className="mt-7 inline-flex rounded-full border border-ocean/20 bg-white px-5 py-2.5 text-sm font-semibold text-ocean transition hover:bg-skyMint">
+            Meet SocialMediaMarketing.VIP
+          </Link>
+        </Container>
+      </section>
+
+      <section className="py-16">
         <Container>
           <SectionTitle
             eyebrow="Maryland Coverage"
             title="Local strategy for real Maryland markets"
             description="We shape content around local community behavior, nearby service areas, and practical engagement for Maryland small businesses."
           />
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            {marylandMarkets.map((market, index) => (
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {locationPages.map((market, index) => (
               <MotionReveal
-                key={market}
+                key={market.slug}
                 delay={index * 0.04}
-                className="rounded-2xl border border-ocean/10 bg-cloud p-4 text-sm font-semibold text-ink shadow-soft"
+                className="h-full"
               >
-                {market}, MD
+                <Link href={`/locations/${market.slug}`} className="block h-full rounded-2xl border border-ocean/10 bg-white p-5 shadow-soft transition hover:-translate-y-0.5 hover:border-ocean">
+                  <span className="font-heading text-xl text-ink">{market.label}</span>
+                  <span className="mt-2 block text-sm leading-relaxed text-ink/70">{market.region}</span>
+                </Link>
               </MotionReveal>
             ))}
           </div>
           <div className="mt-7">
             <Link
-              href="/maryland-social-media-management"
+              href="/locations"
               className="inline-flex rounded-full bg-ocean px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-ink"
             >
-              Explore Maryland Service Details
+              Explore Maryland Areas
             </Link>
           </div>
         </Container>
@@ -223,7 +327,7 @@ export default function HomePage() {
                 href="/contact"
                 className="rounded-full bg-white px-5 py-2.5 text-sm font-bold text-ocean transition hover:bg-skyMint"
               >
-                Start Contact Form
+                Get My Social Plan
               </Link>
               <Link
                 href="/industries-we-serve"

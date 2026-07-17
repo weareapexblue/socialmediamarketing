@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { FaqList } from "@/components/faq-list";
+import { LeadCta } from "@/components/lead-cta";
 import { MotionReveal } from "@/components/motion-reveal";
 import { PageShell } from "@/components/page-shell";
 import { SchemaJsonLd } from "@/components/schema-json-ld";
@@ -42,7 +43,12 @@ const schemaData = buildSchemaData({
   serviceName: "About SocialMediaMarketing.VIP",
   serviceDescription:
     "Maryland social media management team with 30+ years of combined experience, led by Apex Blue founder.",
-  faqItems
+  faqItems,
+  breadcrumbs: [
+    { name: "Home", path: "/" },
+    { name: "About", path: "/about" }
+  ],
+  includeOffers: false
 });
 
 const values = [
@@ -72,6 +78,10 @@ export default function AboutPage() {
         badge="About Us"
         title="A friendly social media team built for local businesses"
         intro="SocialMediaMarketing.VIP is a Maryland-based company under Apex Blue. We combine practical strategy, consistent execution, and human interaction so your brand stays active and trustworthy online."
+        breadcrumbs={[
+          { name: "Home", path: "/" },
+          { name: "About", path: "/about" }
+        ]}
       >
         <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
           <MotionReveal>
@@ -120,6 +130,11 @@ export default function AboutPage() {
             <FaqList items={faqItems} />
           </div>
         </div>
+
+        <LeadCta
+          title="Want real people to take social media off your weekly list?"
+          body="Tell us about the business, the platforms you use now, and the customer conversations you do not want to miss."
+        />
       </PageShell>
     </>
   );

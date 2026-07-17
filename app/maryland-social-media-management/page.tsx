@@ -1,14 +1,16 @@
 import Link from "next/link";
 
 import { FaqList } from "@/components/faq-list";
+import { LeadCta } from "@/components/lead-cta";
 import { MotionReveal } from "@/components/motion-reveal";
 import { PageShell } from "@/components/page-shell";
 import { SchemaJsonLd } from "@/components/schema-json-ld";
 import { buildPageMetadata } from "@/lib/metadata";
 import { buildSchemaData } from "@/lib/schema";
+import { locationPages } from "@/lib/locations";
 
 export const metadata = buildPageMetadata({
-  title: "Maryland Social Media Management for Local Businesses | SocialMediaMarketing.VIP",
+  title: "Maryland Social Media Management for Local Businesses | SMM.VIP",
   description:
     "Maryland social media management for small businesses in Baltimore, Annapolis, Columbia, Bethesda, Rockville, and surrounding communities.",
   path: "/maryland-social-media-management",
@@ -49,7 +51,11 @@ const schemaData = buildSchemaData({
   serviceName: "Maryland Social Media Management",
   serviceDescription:
     "Human-first social media management for Maryland local businesses with posting, community engagement, and platform-specific content support.",
-  faqItems
+  faqItems,
+  breadcrumbs: [
+    { name: "Home", path: "/" },
+    { name: "Maryland Social Media Management", path: "/maryland-social-media-management" }
+  ]
 });
 
 const marylandCities = [
@@ -83,7 +89,7 @@ const deliverables = [
   "Platform-specific post formatting for Facebook, Instagram, TikTok, and YouTube",
   "Local hashtag and geo-tag research for stronger nearby visibility",
   "Community management: follow prospects, comment on targeted posts, and reply to DMs/comments",
-  "Content performance reporting focused on visibility, message quality, and lead conversations",
+  "Performance review used to refine upcoming content, with growth reporting included in Tier 3",
   "Profile optimization updates so your channels match current offers, hours, and services"
 ];
 
@@ -99,9 +105,13 @@ export default function MarylandSocialMediaManagementPage() {
     <>
       <SchemaJsonLd data={schemaData} />
       <PageShell
-        badge="Maryland Service Page"
+        badge="Maryland Social Media Management"
         title="Maryland social media management built for local businesses"
         intro="We help Maryland businesses stay consistent across social platforms with practical strategy, friendly engagement, and real people behind your brand."
+        breadcrumbs={[
+          { name: "Home", path: "/" },
+          { name: "Maryland Social Media Management", path: "/maryland-social-media-management" }
+        ]}
       >
         <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
           <MotionReveal>
@@ -158,6 +168,20 @@ export default function MarylandSocialMediaManagementPage() {
           </MotionReveal>
         </div>
 
+        <section className="mt-10 rounded-3xl border border-ocean/10 bg-skyMint/55 p-7">
+          <h2 className="font-heading text-3xl text-ink">Explore local Maryland service areas</h2>
+          <p className="mt-3 text-sm leading-relaxed text-ink/75">
+            These pages explain how customer questions, content opportunities, and local engagement differ across several Maryland markets.
+          </p>
+          <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {locationPages.map((location) => (
+              <Link key={location.slug} href={`/locations/${location.slug}`} className="rounded-2xl border border-ocean/10 bg-white px-4 py-3 text-sm font-semibold text-ink transition hover:border-ocean">
+                {location.label}
+              </Link>
+            ))}
+          </div>
+        </section>
+
         <section className="mt-10 rounded-3xl border border-ocean/10 bg-white p-7 shadow-soft">
           <h2 className="font-heading text-3xl text-ink">What your Maryland plan includes</h2>
           <p className="mt-3 text-sm leading-relaxed text-ink/75">
@@ -183,7 +207,7 @@ export default function MarylandSocialMediaManagementPage() {
         <section className="mt-10 rounded-3xl border border-ocean/10 bg-white p-7 shadow-soft">
           <h2 className="font-heading text-3xl text-ink">Explore industry-specific Maryland guides</h2>
           <p className="mt-3 text-sm leading-relaxed text-ink/75">
-            If you want niche-specific examples, these long-form guides break down content ideas, common challenges, and
+            If you want business-specific examples, these pages break down content ideas, common challenges, and
             best-fit tier recommendations.
           </p>
           <div className="mt-6 grid gap-3 sm:grid-cols-2">
@@ -205,6 +229,11 @@ export default function MarylandSocialMediaManagementPage() {
             <FaqList items={faqItems} />
           </div>
         </section>
+
+        <LeadCta
+          title="Want a Maryland social media plan built around your real service area?"
+          body="Share your business type, current platforms, and primary goal. We will recommend a practical starting tier and explain the workflow."
+        />
       </PageShell>
     </>
   );
